@@ -1,14 +1,38 @@
-﻿namespace CodeGym;
+﻿using System.Net.Http.Headers;
 
-public class Kata
+namespace CodeGym;
+
+public class Game
 {
-    public Kata()
+    public List<Player> Players { get; set; }
+    public Game()
     {
-
+        Players = new List<Player>();
     }
 
-    public int Solve()
+    public string AddPlayer(string playerName)
     {
-        return -1;
+        if (Players.Count >= 2)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
+        var player = new Player();
+        player.Name = playerName;
+        Players.Add(player);
+
+        return $"Added Player {player.Name}";
     }
+}
+
+public class Player
+{
+    public string Name { get; set; }
+    public char[,] Board { get; set; }
+
+    public Player() 
+    {
+        Board = new char[10,10];
+    }
+
 }
