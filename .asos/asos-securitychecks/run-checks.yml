@@ -1,0 +1,38 @@
+trigger: 
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - /.asos/**
+    - /.asos/asos-securitychecks/run-checks.yml
+
+pr:
+  branches:
+    include:
+    - main
+
+parameters: 
+- name: VeracodeApplicationProfiles
+  type: object
+  default: []
+
+resources:
+  repositories:
+  - repository: asos-security-prchecks
+    type: github
+    name: asosteam/asos-security-prchecks
+    endpoint: 'asosteam'
+    ref: refs/tags/2.0.12
+
+variables:
+- template: /pipelines/security-checks/projectvariables/engineering-central/principal-engineering/securitychecks-pipelinevars-global.yml@asos-security-prchecks
+- template: /pipelines/security-checks/projectvariables/engineering-central/principal-engineering/securitychecks-pipelinevars-snyk.yml@asos-security-prchecks
+- template: /pipelines/security-checks/projectvariables/engineering-central/principal-engineering/securitychecks-pipelinevars-veracode.yml@asos-security-prchecks
+- template: /.asos/asos-securitychecks/variables/securitychecks-pipelinevars-overrides.yml
+- group: 'Security Scan Variables'
+
+extends:
+  template: pipelines/security-checks/main.yml@asos-security-prchecks
+  parameters:
+    VeracodeApplicationProfiles: ${{ parameters.VeracodeApplicationProfiles }}

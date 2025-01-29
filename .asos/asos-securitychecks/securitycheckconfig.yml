@@ -1,0 +1,17 @@
+# *********************************
+# DO NOT DELETE/MOVE THIS FILE - YOU MAY EDIT IT IF REQUIRED
+# *********************************
+# Asos Security Configuration
+# Version: 1.0.0
+# *********************************
+
+pipelinePath: '.asos/asos-securitychecks/run-checks.yml' # Can be overridden to a different path
+optedOut: true # Options: true, false (defaults: false for DevOps Repos, true for GitHub Repos)
+optedOutReason: 'NothingToScan' # Options: 'NothingToScan', 'SelfManaged', 'Incompatible', 'UnsupportedLanguage', 'GitHubRepoDefault', 'Other'
+optedOutReasonOther: '' # Required if optedOutReason is 'Other'
+pipelineType: 'azdevops' # Required - Options: 'azdevops', 'ghactions'
+repositoryType: 'github' # If you migrate from one repo to another, you may need to update this setting - Options: 'github', 'azdevops'
+
+# Uncomment this line if you want to control blocking build/pull requests at repo level
+# branchPolicyBlocksBuild: false # Options: true, false (default: 'false')}') If true, the branch policy will be Required, not Optional. 
+

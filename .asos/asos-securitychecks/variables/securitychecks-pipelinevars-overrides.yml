@@ -1,0 +1,22 @@
+# *********************************
+# YOU MAY EDIT THIS FILE BUT DO NOT MOVE IT
+# *********************************
+# Asos Security Variable Template - Variable Overrides
+# Version: 1.0.0
+# Description: This file contains pipeline variables that override the default values set in the other variable files.  This file does not get overwritten when the pipeline is updated nightly.
+# *********************************
+variables:
+    
+    # Override Global Variables (examples below)
+    # seccfg.global.domain: 'engineering-central'
+    # seccfg.global.platformName: 'principal-engineering'
+    # seccfg.global.componentName: 'MyComponent'
+    # seccfg.global.dataClassification: 'NOT_SET'
+    # seccfg.snyk.projectBusinessCriticality: 'NOT_SET'
+    # seccfg.snyk.additionalArguments: '' # Optional - Additional arguments to pass to Snyk CLI (e.g. -d for debug mode)
+    # seccfg.global.nodeVersion: '14.x' # Optional - Node version to use for any steps that requite nodejs to be installed. Default is 14.x
+
+    seccfg.snyk.orgName: 'asos-core-engineering' # Overrides global Snyk Organisation value 
+    seccfg.global.componentName: 'NOT_SET' # Backstage component name if exists otherwise the name of the component that is being deployed. This is used to identify the component in the security checks and group vulnerabilities together by component or service.
+
+    seccfg.global.defaultBranchName: 'main'
