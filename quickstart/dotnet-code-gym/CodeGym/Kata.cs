@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Data.Common;
+using System.Net.Http.Headers;
 
 namespace CodeGym;
 
@@ -16,14 +17,14 @@ public class Game
         Players = new List<Player>();
     }
 
-    public string AddPlayer(string playerName)
+    public string AddPlayer(string playerName, List<Ship> ships)
     {
         if (Players.Count >= 2)
         {
             throw new ArgumentOutOfRangeException();
         }
 
-        var player = new Player();
+        var player = new Player(ships);
         player.Name = playerName;
         Players.Add(player);
 
@@ -35,27 +36,34 @@ public class Game
         return Players.First(x => x.Name == player1);
     }
 
-    public void Start(string player, char ship, int row, int column, bool isVertical = false)
+    public void Start(string player)
     {
         var playerObject = GetPlayer(player);
 
-        if (isVertical == true)
+        foreach(var thisShip in playerObject.Ships)
         {
-            var thisShpLength = shipLengths[ship];
-            for (int i = row; i <= row + thisShpLength; i++)
+            if (thisShip.IsVertical == true)
             {
-                playerObject.Board[i, column] = ship;
+                var thisShpLength = shipLengths[thisShip.ShipType];
+                for (int i = thisShip.Row; i <= thisShip.Row + thisShpLength; i++)
+                {
+                    playerObject.Board[i, thisShip.Column] = thisShip.ShipType;
+                }
+            }
+            else
+            {
+                var thisShpLength = shipLengths[thisShip.ShipType];
+                for (int i = thisShip.Column; i <= thisShip.Column + thisShpLength; i++)
+                {
+                    playerObject.Board[thisShip.Row, i] = thisShip.ShipType;
+                }
             }
         }
-        else
-        {
-            var thisShpLength = shipLengths[ship];
-            for (int i = column; i <= column + thisShpLength; i++)
-            {
-                playerObject.Board[row, i] = ship;
-            }
-        }
-        
+    }
+
+    public void Fire(string v1, int v2, int v3)
+    {
+        throw new NotImplementedException();
     }
 }
 
@@ -63,10 +71,31 @@ public class Player
 {
     public string Name { get; set; }
     public char[,] Board { get; set; }
+    public List<Ship> Ships { get; set; }
 
-    public Player() 
+
+    public Player(List<Ship> ships) 
     {
         Board = new char[10,10];
+        Ships = ships;
     }
+
+}
+
+public class Ship
+{
+    public Ship(char shipType, int row, int column, bool isVertical)
+    {
+        ShipType = shipType;
+        Row = row;
+        Column = column;
+        IsVertical = isVertical;
+    }
+
+    public char ShipType { get; set; }
+    public int Row { get; set; }
+    public int Column { get; set; }
+    public bool IsVertical { get; set; }
+
 
 }
